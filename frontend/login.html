@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | SkillTrack Pro</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body data-page="login">
+  <main class="login-shell">
+    <section class="login-panel">
+      <div>
+        <div class="eyebrow">Welcome Back</div>
+        <h1>Sign in to your certification workspace</h1>
+        <p class="muted">Use one of the demo accounts below to explore both admin and user experiences.</p>
+      </div>
+
+      <div class="demo-accounts">
+        <div>
+          <strong>Admin</strong>
+          <span>admin@skilltrack.com / admin123</span>
+        </div>
+        <div>
+          <strong>User</strong>
+          <span>arjun@skilltrack.com / user123</span>
+        </div>
+      </div>
+
+      <form id="login-form" class="form-card">
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" placeholder="name@company.com" required>
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" name="password" placeholder="Enter password" required>
+        </label>
+        <button class="button button-primary" type="submit">Login</button>
+        <p id="login-message" class="form-message"></p>
+      </form>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

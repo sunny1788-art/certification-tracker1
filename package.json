@@ -1,0 +1,9 @@
+{
+  "name": "certification-tracker",
+  "version": "1.0.0",
+  "description": "Professional skill certification tracking platform",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  }
+}
