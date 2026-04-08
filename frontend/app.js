@@ -152,6 +152,22 @@ function renderProfilePhoto(targetId, user = S.user) {
   wrap.innerHTML = user.profilePhoto ? `<img src="${user.profilePhoto}" alt="${safe(user.name)}">` : safe(String(user.name || "U").split(/\s+/).slice(0, 2).map((p) => p[0] || "").join("").toUpperCase() || "U");
 }
 
+function showCreatedCredentials(user, password) {
+  const wrap = $("created-user-credentials");
+  if (!wrap || !user) return;
+  wrap.classList.remove("hidden");
+  wrap.innerHTML = `
+    <div class="timeline-item">
+      <strong>Account created successfully</strong><br>
+      Name: ${safe(user.name)}<br>
+      Role: ${safe(user.role)}<br>
+      Email: ${safe(user.email)}<br>
+      Password: ${safe(password)}<br>
+      The user can log in directly with these credentials.
+    </div>
+  `;
+}
+
 function chartMarkup(entries) {
   const max = Math.max(1, ...entries.map(([, value]) => value));
   return `<div class="mini-chart">${entries.map(([label, value]) => `<div class="chart-row"><strong>${safe(label)}</strong><div class="chart-bar"><span style="width:${Math.max(8, (value / max) * 100)}%"></span></div><span>${value}</span></div>`).join("")}</div>`;
@@ -603,10 +619,12 @@ async function initPortal() {
     e.preventDefault();
     const f = new FormData(e.currentTarget);
     try {
-      await api("/api/users", { method: "POST", body: f });
+      const createdPassword = String(f.get("password") || "");
+      const data = await api("/api/users", { method: "POST", body: f });
       e.currentTarget.reset();
       renderProfilePhoto("new-user-photo-preview", { name: "U" });
       setMessage("user-message", "User created successfully.");
+      showCreatedCredentials(data.user, createdPassword);
       S.userPagination.page = 1;
       await loadUsers();
       wireDynamic();
