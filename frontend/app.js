@@ -466,6 +466,43 @@ function requestData(form) {
   return d;
 }
 
+function profileFormData(form) {
+  const d = new FormData();
+  d.set("name", form.elements.name.value);
+  d.set("department", form.elements.department.value);
+  d.set("phone", form.elements.phone.value);
+  if (form.elements.password?.value) d.set("password", form.elements.password.value);
+  const photo = form.elements.profilePhoto?.files?.[0];
+  if (photo) d.set("profilePhoto", photo);
+  return d;
+}
+
+function userFormData(form) {
+  const d = new FormData();
+  d.set("name", form.elements.name.value);
+  d.set("email", form.elements.email.value);
+  d.set("password", form.elements.password.value);
+  d.set("role", form.elements.role.value);
+  d.set("department", form.elements.department.value);
+  d.set("phone", form.elements.phone.value);
+  const photo = form.elements.profilePhoto?.files?.[0];
+  if (photo) d.set("profilePhoto", photo);
+  return d;
+}
+
+function userEditFormData(form) {
+  const d = new FormData();
+  d.set("name", form.elements.name.value);
+  d.set("department", form.elements.department.value);
+  d.set("phone", form.elements.phone.value);
+  d.set("role", form.elements.role.value);
+  d.set("isActive", form.elements.isActive.value);
+  if (form.elements.password?.value) d.set("password", form.elements.password.value);
+  const photo = form.elements.profilePhoto?.files?.[0];
+  if (photo) d.set("profilePhoto", photo);
+  return d;
+}
+
 function initLogin() {
   $("show-signup-btn")?.addEventListener("click", () => $("signup-drawer")?.classList.add("open"));
   $("hide-signup-btn")?.addEventListener("click", () => $("signup-drawer")?.classList.remove("open"));
@@ -577,9 +614,8 @@ async function initPortal() {
     fillProfile();
     $("profile-form").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const f = new FormData(e.currentTarget);
       try {
-        const data = await api(`/api/users/${S.user.id}`, { method: "PUT", body: f });
+        const data = await api(`/api/users/${S.user.id}`, { method: "PUT", body: profileFormData(e.currentTarget) });
         S.user = data.user;
         localStorage.setItem("skillcert-user", JSON.stringify(data.user));
         setShell();
@@ -617,10 +653,9 @@ async function initPortal() {
 
   $("user-form")?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const f = new FormData(e.currentTarget);
+    const createdPassword = e.currentTarget.elements.password.value;
     try {
-      const createdPassword = String(f.get("password") || "");
-      const data = await api("/api/users", { method: "POST", body: f });
+      const data = await api("/api/users", { method: "POST", body: userFormData(e.currentTarget) });
       e.currentTarget.reset();
       renderProfilePhoto("new-user-photo-preview", { name: "U" });
       setMessage("user-message", "User created successfully.");
@@ -635,9 +670,8 @@ async function initPortal() {
 
   $("user-edit-form")?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const f = new FormData(e.currentTarget);
     try {
-      await api(`/api/users/${f.get("id")}`, { method: "PUT", body: f });
+      await api(`/api/users/${e.currentTarget.elements.id.value}`, { method: "PUT", body: userEditFormData(e.currentTarget) });
       $("user-modal")?.close?.();
       await loadUsers();
       wireDynamic();
