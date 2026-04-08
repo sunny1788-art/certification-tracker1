@@ -8,12 +8,13 @@ const { sendOtpEmail, hasMailConfig } = require("../services/mailService");
 const router = express.Router();
 
 function signToken(user) {
+  const jwtSecret = String(process.env.JWT_SECRET || "").trim();
   return jwt.sign(
     {
       userId: user._id.toString(),
       role: user.role
     },
-    process.env.JWT_SECRET,
+    jwtSecret,
     {
       expiresIn: "7d"
     }
@@ -35,7 +36,8 @@ router.post("/signup", async (req, res) => {
     }
 
     const requestedRole = role === "admin" ? "admin" : "student";
-    if (requestedRole === "admin" && adminCode !== process.env.ADMIN_REGISTRATION_CODE) {
+    const expectedAdminCode = String(process.env.ADMIN_REGISTRATION_CODE || "").trim();
+    if (requestedRole === "admin" && String(adminCode || "").trim() !== expectedAdminCode) {
       return res.status(403).json({ message: "Invalid admin registration code." });
     }
 

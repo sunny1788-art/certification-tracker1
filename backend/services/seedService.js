@@ -1,8 +1,8 @@
 const User = require("../models/User");
 
 async function seedDefaultAdmin() {
-  const adminEmail = process.env.DEFAULT_ADMIN_EMAIL;
-  const adminPassword = process.env.DEFAULT_ADMIN_PASSWORD;
+  const adminEmail = String(process.env.DEFAULT_ADMIN_EMAIL || "").trim();
+  const adminPassword = String(process.env.DEFAULT_ADMIN_PASSWORD || "").trim();
 
   if (!adminEmail || !adminPassword) {
     return;
@@ -14,7 +14,7 @@ async function seedDefaultAdmin() {
   }
 
   await User.create({
-    name: process.env.DEFAULT_ADMIN_NAME || "System Admin",
+    name: String(process.env.DEFAULT_ADMIN_NAME || "System Admin").trim(),
     email: adminEmail,
     password: adminPassword,
     role: "admin",
