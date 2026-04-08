@@ -20,20 +20,39 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const frontendDir = path.join(__dirname, "..", "frontend");
 const uploadsDir = path.join(__dirname, "..", "uploads");
+const runtimeUploadsDir = process.env.VERCEL ? path.join(require("os").tmpdir(), "skillcert-uploads") : uploadsDir;
 
 function toCsv(rows) {
   const escapeCell = (value) => `"${String(value ?? "").replace(/"/g, '""')}"`;
   return rows.map((row) => row.map(escapeCell).join(",")).join("\n");
 }
 
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+if (!fs.existsSync(runtimeUploadsDir)) {
+  fs.mkdirSync(runtimeUploadsDir, { recursive: true });
 }
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/uploads", express.static(uploadsDir));
+app.use("/uploads", express.static(runtimeUploadsDir));
+
+let bootstrapPromise = null;
+
+function bootstrap() {
+  if (!bootstrapPromise) {
+    bootstrapPromise = connectDatabase().then(() => seedDefaultAdmin());
+  }
+  return bootstrapPromise;
+}
+
+app.use(async (req, res, next) => {
+  try {
+    await bootstrap();
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -160,8 +179,7 @@ app.use((error, req, res, next) => {
 
 async function startServer() {
   try {
-    await connectDatabase();
-    await seedDefaultAdmin();
+    await bootstrap();
 
     app.listen(PORT, () => {
       console.log(`Certification tracker running on http://localhost:${PORT}`);
@@ -172,4 +190,8 @@ async function startServer() {
   }
 }
 
-startServer();
+if (require.main === module) {
+  startServer();
+}
+
+module.exports = app;

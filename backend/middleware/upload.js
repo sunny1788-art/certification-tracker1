@@ -1,8 +1,11 @@
 const multer = require("multer");
+const os = require("os");
 const path = require("path");
 const fs = require("fs");
 
-const uploadFolder = path.join(__dirname, "..", "..", "uploads");
+const uploadFolder = process.env.VERCEL
+  ? path.join(os.tmpdir(), "skillcert-uploads")
+  : path.join(__dirname, "..", "..", "uploads");
 
 if (!fs.existsSync(uploadFolder)) {
   fs.mkdirSync(uploadFolder, { recursive: true });
