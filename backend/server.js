@@ -12,7 +12,9 @@ const userRoutes = require("./routes/userRoutes");
 const certificationRoutes = require("./routes/certRoutes");
 const alertRoutes = require("./routes/alertRoutes");
 const requestRoutes = require("./routes/requestRoutes");
-const { seedDefaultAdmin } = require("./services/seedService");
+const learningRoutes = require("./routes/learningRoutes");
+const eventRoutes = require("./routes/eventRoutes");
+const { seedDefaultAdmin, seedLearningCatalog } = require("./services/seedService");
 
 dotenv.config();
 
@@ -40,7 +42,10 @@ let bootstrapPromise = null;
 
 function bootstrap() {
   if (!bootstrapPromise) {
-    bootstrapPromise = connectDatabase().then(() => seedDefaultAdmin());
+    bootstrapPromise = connectDatabase().then(async () => {
+      await seedDefaultAdmin();
+      await seedLearningCatalog();
+    });
   }
   return bootstrapPromise;
 }
@@ -59,6 +64,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/certifications", certificationRoutes);
 app.use("/api/alerts", alertRoutes);
 app.use("/api/requests", requestRoutes);
+app.use("/api/learning", learningRoutes);
+app.use("/api/events", eventRoutes);
 
 app.get("/api/exports/users", requireAuth, requireRole("admin"), async (req, res) => {
   const users = await User.find().sort({ createdAt: -1 });
@@ -147,6 +154,10 @@ app.get("/admin/profile", (req, res) => {
   res.sendFile(path.join(frontendDir, "admin-profile.html"));
 });
 
+app.get("/admin/learning", (req, res) => {
+  res.sendFile(path.join(frontendDir, "admin-learning.html"));
+});
+
 app.get("/student/overview", (req, res) => {
   res.sendFile(path.join(frontendDir, "student-overview.html"));
 });
@@ -161,6 +172,10 @@ app.get("/student/requests", (req, res) => {
 
 app.get("/student/profile", (req, res) => {
   res.sendFile(path.join(frontendDir, "student-profile.html"));
+});
+
+app.get("/student/learning", (req, res) => {
+  res.sendFile(path.join(frontendDir, "student-learning.html"));
 });
 
 app.get("*", (req, res) => {

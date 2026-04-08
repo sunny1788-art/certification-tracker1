@@ -45,9 +45,59 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: ""
     },
+    emailVerified: {
+      type: Boolean,
+      default: true
+    },
+    phoneVerified: {
+      type: Boolean,
+      default: true
+    },
+    verificationPending: {
+      type: Boolean,
+      default: false
+    },
+    signupEmailOtp: {
+      type: String,
+      default: ""
+    },
+    signupPhoneOtp: {
+      type: String,
+      default: ""
+    },
+    signupOtpExpiresAt: {
+      type: Date,
+      default: null
+    },
     isActive: {
       type: Boolean,
       default: true
+    },
+    blockedReason: {
+      type: String,
+      trim: true,
+      default: ""
+    },
+    failedLoginAttempts: {
+      type: Number,
+      default: 0
+    },
+    suspiciousScore: {
+      type: Number,
+      default: 0
+    },
+    suspiciousReason: {
+      type: String,
+      trim: true,
+      default: ""
+    },
+    loginCount: {
+      type: Number,
+      default: 0
+    },
+    lastLoginAt: {
+      type: Date,
+      default: null
     },
     resetOtpCode: {
       type: String,
@@ -87,7 +137,16 @@ userSchema.methods.toSafeObject = function toSafeObject() {
     department: this.department,
     phone: this.phone,
     profilePhoto: this.profilePhoto,
+    emailVerified: this.emailVerified !== false,
+    phoneVerified: this.phone ? this.phoneVerified !== false : true,
+    verificationPending: Boolean(this.verificationPending),
     isActive: this.isActive,
+    blockedReason: this.blockedReason,
+    failedLoginAttempts: this.failedLoginAttempts || 0,
+    suspiciousScore: this.suspiciousScore || 0,
+    suspiciousReason: this.suspiciousReason || "",
+    loginCount: this.loginCount || 0,
+    lastLoginAt: this.lastLoginAt ? this.lastLoginAt.toISOString() : "",
     createdAt: this.createdAt
   };
 };

@@ -17,6 +17,7 @@
         </div>
         <nav class="nav-links">
           <a class="nav-link" href="/admin/overview">Overview</a>
+          <a class="nav-link" href="/admin/learning">Learning Hub</a>
           <a class="nav-link" href="/admin/users">Users</a>
           <a class="nav-link active" href="/admin/certifications">Certifications</a>
           <a class="nav-link" href="/admin/requests">Requests</a>
@@ -39,8 +40,24 @@
 
         <form id="cert-form" class="portal-panel form-stack" enctype="multipart/form-data">
           <h2 id="cert-form-title">Add Certification Directly</h2>
+          <section class="owner-picker card">
+            <div class="section-head">
+              <div>
+                <h3>Select Specific User</h3>
+                <p class="muted">Search a student or admin, select that person, then add the certificate only for that user.</p>
+              </div>
+              <button id="clear-owner-btn" class="button secondary" type="button">Clear User</button>
+            </div>
+            <label id="owner-field">
+              <span>Search User</span>
+              <input id="cert-owner-search" type="text" placeholder="Search by name, email, user ID, or department">
+            </label>
+            <input id="cert-user-id" type="hidden" name="userId">
+            <div id="cert-owner-selected" class="picker-selected hidden"></div>
+            <div id="cert-owner-results" class="picker-results"></div>
+          </section>
+
           <div class="compact-grid">
-            <label id="owner-field"><span>Certificate Owner</span><select id="cert-user-select" name="userId"></select></label>
             <label><span>Title</span><input type="text" name="title" required></label>
             <label><span>Provider</span><input type="text" name="provider" required></label>
             <label><span>Issue Date</span><input type="date" name="issueDate" required></label>

@@ -8,6 +8,7 @@
   --primary: #0d8eff;
   --primary-deep: #085ccf;
   --accent: #13c296;
+  --accent-deep: #0b8f6f;
   --warning: #ffb648;
   --danger: #e55d70;
   --shadow: 0 22px 60px rgba(30, 69, 123, 0.16);
@@ -27,7 +28,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-family: "Trebuchet MS", "Segoe UI", Tahoma, sans-serif;
   color: var(--ink);
   background:
     radial-gradient(circle at top left, rgba(13, 142, 255, 0.18), transparent 26%),
@@ -54,7 +55,7 @@ img {
 }
 
 main {
-  width: min(1680px, calc(100% - 24px));
+  width: min(1740px, calc(100% - 28px));
   margin: 0 auto;
 }
 
@@ -159,6 +160,7 @@ main {
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  text-align: center;
 }
 
 .button:hover {
@@ -207,7 +209,7 @@ main {
 .portal-panel,
 .sidebar,
 .auth-panel {
-  padding: 24px;
+  padding: 28px;
 }
 
 .card h2,
@@ -293,6 +295,90 @@ main {
   gap: 16px;
 }
 
+.input-shell {
+  position: relative;
+}
+
+.input-shell input {
+  padding-right: 86px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  border: 0;
+  background: rgba(13, 142, 255, 0.1);
+  color: var(--primary-deep);
+  width: 64px;
+  height: 36px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: transparent;
+  position: absolute;
+}
+
+.password-toggle::after {
+  content: attr(aria-label);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--primary-deep);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.password-toggle:hover {
+  background: rgba(13, 142, 255, 0.16);
+}
+
+.owner-picker {
+  display: grid;
+  gap: 14px;
+  padding: 22px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(241, 248, 255, 0.94));
+}
+
+.picker-results {
+  display: grid;
+  gap: 10px;
+}
+
+.picker-result,
+.picker-selected-card {
+  width: 100%;
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(13, 142, 255, 0.12);
+  background: rgba(255, 255, 255, 0.92);
+  text-align: left;
+}
+
+.picker-result {
+  cursor: pointer;
+}
+
+.picker-result:hover {
+  background: rgba(13, 142, 255, 0.08);
+}
+
+.picker-result span,
+.picker-selected-card span {
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.picker-selected {
+  display: grid;
+}
+
 .auth-toggle {
   display: flex;
   gap: 10px;
@@ -361,7 +447,7 @@ textarea:focus {
 .portal-shell {
   display: grid;
   grid-template-columns: 320px minmax(0, 1fr);
-  gap: 18px;
+  gap: 22px;
   padding: 12px 0 20px;
 }
 
@@ -369,6 +455,8 @@ textarea:focus {
   position: sticky;
   top: 16px;
   align-self: start;
+  max-height: calc(100vh - 32px);
+  overflow: auto;
 }
 
 .brand-block {
@@ -401,7 +489,7 @@ textarea:focus {
 
 .portal-main {
   display: grid;
-  gap: 16px;
+  gap: 18px;
 }
 
 .page-banner {
@@ -409,6 +497,19 @@ textarea:focus {
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 14px;
   align-items: center;
+  background:
+    linear-gradient(120deg, rgba(8, 92, 207, 0.92), rgba(13, 142, 255, 0.9) 52%, rgba(19, 194, 150, 0.84)),
+    var(--panel);
+  color: #ffffff;
+}
+
+.page-banner .muted,
+.page-banner .eyebrow {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.page-banner .eyebrow {
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .badge,
@@ -448,10 +549,11 @@ textarea:focus {
 }
 
 .mini-stat {
-  padding: 20px;
+  padding: 22px;
   border-radius: 22px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(245, 250, 255, 0.92));
   border: 1px solid rgba(16, 35, 58, 0.05);
+  min-height: 128px;
 }
 
 .mini-stat strong {
@@ -466,7 +568,7 @@ textarea:focus {
 }
 
 .list-card {
-  padding: 18px;
+  padding: 20px;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.74);
   border: 1px solid rgba(16, 35, 58, 0.08);
@@ -580,6 +682,8 @@ textarea:focus {
   align-content: space-between;
   gap: 16px;
   min-height: 190px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(240, 248, 255, 0.9));
 }
 
 .compact-action {
@@ -634,6 +738,7 @@ textarea:focus {
   border-radius: 18px;
   background: rgba(13, 142, 255, 0.05);
   border: 1px solid rgba(13, 142, 255, 0.08);
+  min-height: 182px;
 }
 
 .mini-chart {
@@ -683,6 +788,21 @@ textarea:focus {
   border: 1px solid rgba(16, 35, 58, 0.08);
 }
 
+.portal-panel > h2:first-child,
+.portal-panel .section-head h2,
+.portal-panel h3 {
+  letter-spacing: -0.02em;
+}
+
+.portal-main .grid.three {
+  align-items: stretch;
+}
+
+.portal-main .grid.two > .portal-panel,
+.portal-main .grid.three > .portal-panel {
+  height: 100%;
+}
+
 .wallet-actions {
   display: flex;
   gap: 10px;
@@ -726,6 +846,7 @@ textarea:focus {
 
   .sidebar {
     position: static;
+    max-height: none;
   }
 
   .auth-layout {

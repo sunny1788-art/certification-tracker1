@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Learning Hub | Skill Certification Tracking Portal</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body data-page="student-learning">
+  <main class="page-shell">
+    <div class="portal-shell">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <div class="eyebrow">Student Portal</div>
+          <h2>Skill Certification Tracking Portal</h2>
+          <p id="sidebar-user" class="muted"></p>
+        </div>
+        <nav class="nav-links">
+          <a class="nav-link" href="/student/overview">Overview</a>
+          <a class="nav-link active" href="/student/learning">Learning Hub</a>
+          <a class="nav-link" href="/student/certifications">Certifications</a>
+          <a class="nav-link" href="/student/requests">Requests</a>
+          <a class="nav-link" href="/student/profile">Profile</a>
+        </nav>
+        <div class="action-row">
+          <span id="session-badge" class="badge"></span>
+          <button id="logout-btn" class="button secondary" type="button">Logout</button>
+        </div>
+      </aside>
+
+      <section class="portal-main">
+        <article class="portal-panel page-banner">
+          <div>
+            <div class="eyebrow">Learning Hub</div>
+            <h1 id="dashboard-title">Courses, Events, Scores, and Auto Certificates</h1>
+            <p id="dashboard-subtitle" class="muted"></p>
+          </div>
+          <button id="refresh-learning-btn" class="button primary" type="button">Refresh Learning Data</button>
+        </article>
+
+        <section id="learning-summary-grid" class="kpi-strip"></section>
+
+        <section class="portal-panel">
+          <div class="section-head">
+            <div>
+              <h2>Certification Courses Posted by Admin</h2>
+              <p class="muted">Register, complete quiz and assignments, and send your course completion for approval.</p>
+            </div>
+            <label>
+              <span>Search Course</span>
+              <input id="course-search" type="text" placeholder="Search course title or category">
+            </label>
+          </div>
+          <div id="course-list" class="stack-list"></div>
+        </section>
+
+        <section class="grid two">
+          <article class="portal-panel">
+            <div class="section-head">
+              <div>
+                <h2>My Course Progress</h2>
+                <p class="muted">See completion percentage, quiz score, assignment score, and pending approvals.</p>
+              </div>
+              <label>
+                <span>Status</span>
+                <select id="enrollment-status-filter">
+                  <option value="">All</option>
+                  <option value="registered">Registered</option>
+                  <option value="pending_approval">Pending Approval</option>
+                  <option value="approved">Approved</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </label>
+            </div>
+            <div id="enrollment-list" class="stack-list"></div>
+          </article>
+
+          <article class="portal-panel">
+            <div class="section-head">
+              <div>
+                <h2>Skill Events and Registrations</h2>
+                <p class="muted">Register to admin-posted workshops, webinars, and certification events.</p>
+              </div>
+            </div>
+            <div id="event-list" class="stack-list"></div>
+          </article>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <dialog id="progress-modal" class="modal">
+    <form id="progress-form" class="portal-panel form-stack modal-card">
+      <div class="section-head">
+        <h2>Submit Quiz and Assignment Progress</h2>
+        <button class="button secondary" type="button" data-close-modal="progress-modal">Close</button>
+      </div>
+      <input type="hidden" name="id">
+      <div class="compact-grid">
+        <label><span>Course Progress %</span><input type="number" name="progressPercent" min="0" max="100" required></label>
+        <label><span>Quiz Score</span><input type="number" name="quizScore" min="0" max="100" required></label>
+        <label><span>Assignment Score</span><input type="number" name="assignmentScore" min="0" max="100" required></label>
+        <label><span>Assignment Link</span><input type="url" name="assignmentLink"></label>
+      </div>
+      <label><span>Assignment Notes</span><textarea name="assignmentNotes" rows="4"></textarea></label>
+      <button class="button primary" type="submit">Send for Admin Approval</button>
+      <p id="progress-message" class="message"></p>
+    </form>
+  </dialog>
+
+  <dialog id="rating-modal" class="modal">
+    <form id="rating-form" class="portal-panel form-stack modal-card">
+      <div class="section-head">
+        <h2>Rate Course</h2>
+        <button class="button secondary" type="button" data-close-modal="rating-modal">Close</button>
+      </div>
+      <input type="hidden" name="id">
+      <label><span>Star Rating (1 to 5)</span><input type="number" name="stars" min="1" max="5" required></label>
+      <button class="button primary" type="submit">Save Rating</button>
+      <p id="rating-message" class="message"></p>
+    </form>
+  </dialog>
+
+  <script src="/app.js"></script>
+</body>
+</html>

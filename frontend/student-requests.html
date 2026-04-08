@@ -17,6 +17,7 @@
         </div>
         <nav class="nav-links">
           <a class="nav-link" href="/student/overview">Overview</a>
+          <a class="nav-link" href="/student/learning">Learning Hub</a>
           <a class="nav-link" href="/student/certifications">Certifications</a>
           <a class="nav-link active" href="/student/requests">Requests</a>
           <a class="nav-link" href="/student/profile">Profile</a>
@@ -34,7 +35,11 @@
             <h1 id="dashboard-title">My Certification Requests</h1>
             <p id="dashboard-subtitle" class="muted"></p>
           </div>
-          <button id="refresh-requests-btn" class="button primary" type="button">Refresh Requests</button>
+          <div class="toolbar">
+            <a class="button secondary" href="/student/requests?type=add">Certification Requests</a>
+            <a class="button secondary" href="/student/requests?type=renew">Renewal Requests</a>
+            <button id="refresh-requests-btn" class="button primary" type="button">Refresh Requests</button>
+          </div>
         </article>
 
         <section class="portal-panel">

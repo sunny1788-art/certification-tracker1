@@ -17,6 +17,7 @@
         </div>
         <nav class="nav-links">
           <a class="nav-link" href="/student/overview">Overview</a>
+          <a class="nav-link" href="/student/learning">Learning Hub</a>
           <a class="nav-link" href="/student/certifications">Certifications</a>
           <a class="nav-link" href="/student/requests">Requests</a>
           <a class="nav-link active" href="/student/profile">Profile</a>
@@ -50,7 +51,13 @@
               <label><span>Name</span><input type="text" name="name" required></label>
               <label><span>Department</span><input type="text" name="department"></label>
               <label><span>Phone</span><input type="text" name="phone"></label>
-              <label><span>New Password</span><input type="password" name="password" minlength="6"></label>
+              <label>
+                <span>New Password</span>
+                <div class="input-shell">
+                  <input id="student-profile-password" type="password" name="password" minlength="6">
+                  <button class="password-toggle" type="button" data-password-toggle="student-profile-password" aria-label="Show password" title="Show password">&#128065;</button>
+                </div>
+              </label>
             </div>
             <button class="button primary" type="submit">Update Profile</button>
             <p id="profile-message" class="message"></p>

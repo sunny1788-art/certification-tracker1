@@ -45,7 +45,10 @@
           </label>
           <label>
             <span>Password</span>
-            <input type="password" name="password" required>
+            <div class="input-shell">
+              <input id="login-password" type="password" name="password" required>
+              <button class="password-toggle" type="button" data-password-toggle="login-password" aria-label="Show password" title="Show password">&#128065;</button>
+            </div>
           </label>
           <div class="action-row">
             <button class="button primary" type="submit">Login</button>
@@ -85,7 +88,10 @@
               </label>
               <label>
                 <span>Password</span>
-                <input type="password" name="password" minlength="6" required>
+                <div class="input-shell">
+                  <input id="signup-password" type="password" name="password" minlength="6" required>
+                  <button class="password-toggle" type="button" data-password-toggle="signup-password" aria-label="Show password" title="Show password">&#128065;</button>
+                </div>
               </label>
               <label>
                 <span>Phone</span>
@@ -109,6 +115,29 @@
             </div>
             <button class="button primary" type="submit">Create Account</button>
             <p id="signup-message" class="message"></p>
+          </form>
+
+          <form id="signup-verify-form" class="form-stack hidden">
+            <input type="hidden" name="email">
+            <div class="section-head">
+              <div>
+                <h3>Verify Signup</h3>
+                <p class="muted">Enter the OTP sent to your email and mobile number to activate the account.</p>
+              </div>
+              <button id="resend-signup-otp-btn" class="button secondary" type="button">Resend OTP</button>
+            </div>
+            <div class="form-grid">
+              <label>
+                <span>Email OTP</span>
+                <input type="text" name="emailOtp" maxlength="6" required>
+              </label>
+              <label id="signup-phone-otp-field">
+                <span>Mobile OTP</span>
+                <input type="text" name="phoneOtp" maxlength="6">
+              </label>
+            </div>
+            <button class="button primary" type="submit">Verify and Continue</button>
+            <p id="signup-verify-message" class="message"></p>
           </form>
         </section>
 
@@ -141,7 +170,10 @@
               </label>
               <label>
                 <span>New Password</span>
-                <input type="password" name="newPassword" minlength="6" required>
+                <div class="input-shell">
+                  <input id="reset-password" type="password" name="newPassword" minlength="6" required>
+                  <button class="password-toggle" type="button" data-password-toggle="reset-password" aria-label="Show password" title="Show password">&#128065;</button>
+                </div>
               </label>
             </div>
             <button class="button primary" type="submit">Reset Password</button>

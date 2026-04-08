@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const User = require("../models/User");
 const Certification = require("../models/Certification");
+const CourseEnrollment = require("../models/CourseEnrollment");
 const { requireAuth, requireRole } = require("../middleware/auth");
 const upload = require("../middleware/upload");
 
@@ -62,8 +63,52 @@ router.get("/", requireAuth, requireRole("admin"), async (req, res) => {
       User.countDocuments(filters)
     ]);
 
+    const userIds = users.map((user) => user._id);
+    const [certCounts, enrollmentStats] = await Promise.all([
+      Certification.aggregate([
+        { $match: { user: { $in: userIds } } },
+        { $group: { _id: "$user", certifications: { $sum: 1 } } }
+      ]),
+      CourseEnrollment.aggregate([
+        { $match: { user: { $in: userIds } } },
+        {
+          $group: {
+            _id: "$user",
+            totalCourses: { $sum: 1 },
+            coursesCompleted: { $sum: { $cond: [{ $eq: ["$status", "approved"] }, 1, 0] } },
+            pendingCourses: { $sum: { $cond: [{ $eq: ["$status", "pending_approval"] }, 1, 0] } },
+            averageScore: { $avg: "$averageScore" },
+            progressPercent: { $avg: "$progressPercent" }
+          }
+        }
+      ])
+    ]);
+
+    const certMap = certCounts.reduce((acc, item) => {
+      acc[item._id.toString()] = item.certifications;
+      return acc;
+    }, {});
+    const courseMap = enrollmentStats.reduce((acc, item) => {
+      acc[item._id.toString()] = item;
+      return acc;
+    }, {});
+
     return res.json({
-      users: users.map((user) => user.toSafeObject()),
+      users: users.map((user) => {
+        const safeUser = user.toSafeObject();
+        const courseStats = courseMap[user._id.toString()] || {};
+        return {
+          ...safeUser,
+          stats: {
+            certifications: certMap[user._id.toString()] || 0,
+            totalCourses: courseStats.totalCourses || 0,
+            coursesCompleted: courseStats.coursesCompleted || 0,
+            pendingCourses: courseStats.pendingCourses || 0,
+            averageScore: Math.round(courseStats.averageScore || 0),
+            progressPercent: Math.round(courseStats.progressPercent || 0)
+          }
+        };
+      }),
       pagination: {
         page,
         pageSize,
@@ -96,7 +141,10 @@ router.post("/", requireAuth, requireRole("admin"), upload.single("profilePhoto"
       role: role === "admin" ? "admin" : "student",
       department: department || "General",
       phone: phone || "",
-      profilePhoto: req.file ? `/uploads/${path.basename(req.file.path)}` : ""
+      profilePhoto: req.file ? `/uploads/${path.basename(req.file.path)}` : "",
+      emailVerified: true,
+      phoneVerified: true,
+      verificationPending: false
     });
 
     return res.status(201).json({
@@ -137,6 +185,12 @@ router.put("/:id", requireAuth, upload.single("profilePhoto"), async (req, res) 
       if (typeof req.body.isActive !== "undefined") {
         targetUser.isActive = req.body.isActive === true || req.body.isActive === "true";
       }
+      if (typeof req.body.blockedReason !== "undefined") {
+        targetUser.blockedReason = String(req.body.blockedReason || "").trim();
+      }
+      if (typeof req.body.suspiciousReason !== "undefined") {
+        targetUser.suspiciousReason = String(req.body.suspiciousReason || "").trim();
+      }
     }
 
     if (req.body.password) {
@@ -151,6 +205,78 @@ router.put("/:id", requireAuth, upload.single("profilePhoto"), async (req, res) 
     });
   } catch (error) {
     return res.status(500).json({ message: "Failed to update user.", details: error.message });
+  }
+});
+
+router.get("/:id/insights", requireAuth, requireRole("admin"), async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    const [certifications, enrollments] = await Promise.all([
+      Certification.find({ user: user._id }).sort({ createdAt: -1 }),
+      CourseEnrollment.find({ user: user._id }).populate("course").populate("certification").sort({ createdAt: -1 })
+    ]);
+
+    return res.json({
+      user: user.toSafeObject(),
+      insights: {
+        certifications: certifications.length,
+        coursesCompleted: enrollments.filter((item) => item.status === "approved").length,
+        pendingCourses: enrollments.filter((item) => item.status === "pending_approval").length,
+        progressPercent: enrollments.length ? Math.round(enrollments.reduce((sum, item) => sum + (item.progressPercent || 0), 0) / enrollments.length) : 0,
+        averageScore: enrollments.length ? Math.round(enrollments.reduce((sum, item) => sum + (item.averageScore || 0), 0) / enrollments.length) : 0,
+        recentEnrollments: enrollments.slice(0, 6).map((item) => item.toClient())
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to load user insights.", details: error.message });
+  }
+});
+
+router.post("/:id/block", requireAuth, requireRole("admin"), async (req, res) => {
+  try {
+    if (req.user._id.toString() === req.params.id) {
+      return res.status(400).json({ message: "You cannot block your own admin account." });
+    }
+
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    user.isActive = false;
+    user.blockedReason = String(req.body.reason || "Blocked by admin due to suspicious activity.").trim();
+    await user.save();
+
+    return res.json({
+      message: "User blocked successfully.",
+      user: user.toSafeObject()
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to block user.", details: error.message });
+  }
+});
+
+router.post("/:id/unblock", requireAuth, requireRole("admin"), async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    user.isActive = true;
+    user.blockedReason = "";
+    await user.save();
+
+    return res.json({
+      message: "User unblocked successfully.",
+      user: user.toSafeObject()
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to unblock user.", details: error.message });
   }
 });
 

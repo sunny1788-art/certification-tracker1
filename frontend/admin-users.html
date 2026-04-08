@@ -17,6 +17,7 @@
         </div>
         <nav class="nav-links">
           <a class="nav-link" href="/admin/overview">Overview</a>
+          <a class="nav-link" href="/admin/learning">Learning Hub</a>
           <a class="nav-link active" href="/admin/users">Users</a>
           <a class="nav-link" href="/admin/certifications">Certifications</a>
           <a class="nav-link" href="/admin/requests">Requests</a>
@@ -55,7 +56,13 @@
             <div class="compact-grid">
               <label><span>Name</span><input type="text" name="name" required></label>
               <label><span>Email</span><input type="email" name="email" required></label>
-              <label><span>Password</span><input type="password" name="password" minlength="6" required></label>
+              <label>
+                <span>Password</span>
+                <div class="input-shell">
+                  <input id="create-user-password" type="password" name="password" minlength="6" required>
+                  <button class="password-toggle" type="button" data-password-toggle="create-user-password" aria-label="Show password" title="Show password">&#128065;</button>
+                </div>
+              </label>
               <label><span>Role</span><select name="role"><option value="student">Student</option><option value="admin">Admin</option></select></label>
               <label><span>Department</span><input type="text" name="department"></label>
               <label><span>Phone</span><input type="text" name="phone"></label>
@@ -118,11 +125,26 @@
         <label><span>Phone</span><input type="text" name="phone"></label>
         <label><span>Role</span><select name="role"><option value="student">Student</option><option value="admin">Admin</option></select></label>
         <label><span>Status</span><select name="isActive"><option value="true">Active</option><option value="false">Inactive</option></select></label>
-        <label><span>New Password</span><input type="password" name="password" minlength="6"></label>
+        <label>
+          <span>New Password</span>
+          <div class="input-shell">
+            <input id="edit-user-password" type="password" name="password" minlength="6">
+            <button class="password-toggle" type="button" data-password-toggle="edit-user-password" aria-label="Show password" title="Show password">&#128065;</button>
+          </div>
+        </label>
       </div>
       <button class="button primary" type="submit">Save User</button>
       <p id="user-edit-message" class="message"></p>
     </form>
+  </dialog>
+  <dialog id="user-insights-modal" class="modal">
+    <article class="portal-panel form-stack modal-card">
+      <div class="section-head">
+        <h2>User Score and Progress</h2>
+        <button class="button secondary" type="button" data-close-modal="user-insights-modal">Close</button>
+      </div>
+      <div id="user-insights-content" class="form-stack"></div>
+    </article>
   </dialog>
   <script src="/app.js"></script>
 </body>

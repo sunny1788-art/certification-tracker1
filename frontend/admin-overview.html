@@ -17,6 +17,7 @@
         </div>
         <nav class="nav-links">
           <a class="nav-link active" href="/admin/overview">Overview</a>
+          <a class="nav-link" href="/admin/learning">Learning Hub</a>
           <a class="nav-link" href="/admin/users">Users</a>
           <a class="nav-link" href="/admin/certifications">Certifications</a>
           <a class="nav-link" href="/admin/requests">Requests</a>
@@ -35,10 +36,23 @@
             <h1 id="dashboard-title">Admin Control Center</h1>
             <p id="dashboard-subtitle" class="muted"></p>
           </div>
-          <a class="button primary" href="/admin/requests">Review Requests</a>
+          <div class="toolbar">
+            <a class="button secondary" href="/admin/certifications?status=Expiring%20Soon">Expiring Records</a>
+            <a class="button primary" href="/admin/learning">Open Learning Hub</a>
+          </div>
         </article>
 
         <section id="summary-grid" class="kpi-strip"></section>
+
+        <article class="portal-panel">
+          <div class="section-head">
+            <div>
+              <h2>Learning Program Snapshot</h2>
+              <p class="muted">Track total users, blocked accounts, course approvals, and event registrations from one place.</p>
+            </div>
+          </div>
+          <section id="learning-summary-grid" class="kpi-strip"></section>
+        </article>
 
         <section class="grid three">
           <article class="portal-panel action-card">
@@ -53,14 +67,14 @@
               <h2>Track Expiration Dates</h2>
               <p class="muted">Monitor active, expiring soon, and expired certificates with alerts and analytics.</p>
             </div>
-            <a class="button secondary compact-action" href="/admin/overview">View Expiry</a>
+            <a class="button secondary compact-action" href="/admin/certifications?status=Expiring%20Soon">View Expiry</a>
           </article>
           <article class="portal-panel action-card">
             <div>
               <h2>Facilitate Renewals</h2>
               <p class="muted">Review renewal requests, approve updates, and keep certificate validity current.</p>
             </div>
-            <a class="button secondary compact-action" href="/admin/requests">Review Renewals</a>
+            <a class="button secondary compact-action" href="/admin/requests?type=renew">Review Renewals</a>
           </article>
         </section>
 
