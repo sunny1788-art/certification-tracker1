@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Profile | Skill Certification Tracking Portal</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body data-page="admin-profile">
+  <main class="page-shell">
+    <div class="portal-shell">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <div class="eyebrow">Admin Portal</div>
+          <h2>Skill Certification Tracking Portal</h2>
+          <p id="sidebar-user" class="muted"></p>
+        </div>
+        <nav class="nav-links">
+          <a class="nav-link" href="/admin/overview">Overview</a>
+          <a class="nav-link" href="/admin/users">Users</a>
+          <a class="nav-link" href="/admin/certifications">Certifications</a>
+          <a class="nav-link" href="/admin/requests">Requests</a>
+          <a class="nav-link active" href="/admin/profile">Profile</a>
+        </nav>
+        <div class="action-row">
+          <span id="session-badge" class="badge"></span>
+          <button id="logout-btn" class="button secondary" type="button">Logout</button>
+        </div>
+      </aside>
+
+      <section class="portal-main">
+        <article class="portal-panel page-banner">
+          <div>
+            <div class="eyebrow">Settings</div>
+            <h1 id="dashboard-title">Admin Profile & Settings</h1>
+            <p id="dashboard-subtitle" class="muted"></p>
+          </div>
+        </article>
+
+        <section class="grid two">
+          <form id="profile-form" class="portal-panel form-stack" enctype="multipart/form-data">
+            <h2>Profile Details</h2>
+            <div class="profile-header">
+              <div id="profile-photo-preview" class="profile-avatar large"></div>
+              <label class="avatar-upload">
+                <span>Profile Photo</span>
+                <input type="file" name="profilePhoto" accept=".png,.jpg,.jpeg">
+              </label>
+            </div>
+            <div class="compact-grid">
+              <label><span>Name</span><input type="text" name="name" required></label>
+              <label><span>Department</span><input type="text" name="department"></label>
+              <label><span>Phone</span><input type="text" name="phone"></label>
+              <label><span>New Password</span><input type="password" name="password" minlength="6"></label>
+            </div>
+            <button class="button primary" type="submit">Update Profile</button>
+            <p id="profile-message" class="message"></p>
+          </form>
+
+          <article class="portal-panel">
+            <h2>Admin Controls</h2>
+            <div class="timeline-list">
+              <div class="timeline-item">Manage admin identity with profile photo, password, and contact details.</div>
+              <div class="timeline-item">OTP reset remains available from the login page for recovery.</div>
+              <div class="timeline-item">Use this as your settings hub for the faculty-demo version of the project.</div>
+            </div>
+            <div id="notification-list" class="timeline-list"></div>
+          </article>
+        </section>
+      </section>
+    </div>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Overview | Skill Certification Tracking Portal</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body data-page="student-overview">
+  <main class="page-shell">
+    <div class="portal-shell">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <div class="eyebrow">Student Portal</div>
+          <h2>Skill Certification Tracking Portal</h2>
+          <p id="sidebar-user" class="muted"></p>
+        </div>
+        <nav class="nav-links">
+          <a class="nav-link active" href="/student/overview">Overview</a>
+          <a class="nav-link" href="/student/certifications">Certifications</a>
+          <a class="nav-link" href="/student/requests">Requests</a>
+          <a class="nav-link" href="/student/profile">Profile</a>
+        </nav>
+        <div class="action-row">
+          <span id="session-badge" class="badge"></span>
+          <button id="logout-btn" class="button secondary" type="button">Logout</button>
+        </div>
+      </aside>
+
+      <section class="portal-main">
+        <article class="portal-panel page-banner">
+          <div>
+            <div class="eyebrow">Overview</div>
+            <h1 id="dashboard-title">Student Dashboard</h1>
+            <p id="dashboard-subtitle" class="muted"></p>
+          </div>
+          <a class="button primary" href="/student/certifications">Submit Certification Request</a>
+        </article>
+
+        <section id="summary-grid" class="kpi-strip"></section>
+
+        <section class="grid three">
+          <article class="portal-panel">
+            <h2>Record Certifications</h2>
+            <p class="muted">Submit new certification details, proof files, and verification links for approval.</p>
+            <a class="button primary" href="/student/certifications">Add Certification Request</a>
+          </article>
+          <article class="portal-panel">
+            <h2>Monitor Renewal Deadlines</h2>
+            <p class="muted">Track expiring and expired certifications using alerts, analytics, and calendar view.</p>
+            <a class="button secondary" href="/student/overview">View Deadlines</a>
+          </article>
+          <article class="portal-panel">
+            <h2>Access Certificates</h2>
+            <p class="muted">Open, download, and share approved certificate files from your digital wallet.</p>
+            <a class="button primary" href="/student/certifications">Open Certificate Wallet</a>
+          </article>
+        </section>
+
+        <section class="grid two">
+          <article class="portal-panel">
+            <div class="section-head">
+              <div>
+                <h2>Smart Analytics</h2>
+                <p class="muted">Certification growth, skill categories, wallet health, and strength indicators.</p>
+              </div>
+            </div>
+            <div id="student-analytics" class="grid two"></div>
+          </article>
+
+          <article class="portal-panel">
+            <div class="section-head">
+              <div>
+                <h2>AI Recommendations</h2>
+                <p class="muted">Suggested next certifications based on your current progress.</p>
+              </div>
+            </div>
+            <div id="recommendation-list" class="timeline-list"></div>
+            <h3>Badges & Progress</h3>
+            <div id="badge-list" class="badge-wrap"></div>
+          </article>
+        </section>
+
+        <section class="grid two">
+          <article class="portal-panel">
+            <div class="section-head">
+              <div>
+                <h2>Notification Center</h2>
+                <p class="muted">Expiry alerts, request updates, and suggested actions.</p>
+              </div>
+            </div>
+            <div id="notification-list" class="timeline-list"></div>
+          </article>
+
+          <article class="portal-panel">
+            <div class="section-head">
+              <div>
+                <h2>Calendar View</h2>
+                <p class="muted">Upcoming expiry timeline and renewal priorities.</p>
+              </div>
+            </div>
+            <div id="calendar-list" class="timeline-list"></div>
+          </article>
+        </section>
+
+        <section class="grid two">
+          <article class="portal-panel">
+            <div class="section-head">
+              <div>
+                <h2>My Approved Certifications</h2>
+                <p class="muted">Your latest approved certifications.</p>
+              </div>
+            </div>
+            <div id="certification-list" class="stack-list"></div>
+          </article>
+
+          <article class="portal-panel">
+            <div class="section-head">
+              <div>
+                <h2>My Latest Requests</h2>
+                <p class="muted">Track recent add and renewal requests.</p>
+              </div>
+              <button id="refresh-requests-btn" class="button secondary" type="button">Refresh</button>
+            </div>
+            <div id="request-list" class="stack-list"></div>
+          </article>
+        </section>
+      </section>
+    </div>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

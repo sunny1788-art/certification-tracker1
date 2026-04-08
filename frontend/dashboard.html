@@ -3,132 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | SkillTrack Pro</title>
+  <title>Redirecting | Skill Certification Tracking Portal</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body data-page="dashboard">
-  <main class="dashboard-shell">
-    <section class="topbar">
-      <div>
-        <div class="eyebrow">Certification Command Center</div>
-        <h1 id="dashboard-title">SkillTrack Pro Dashboard</h1>
-      </div>
-      <div class="topbar-actions">
-        <span id="session-badge" class="session-badge">Guest Preview</span>
-        <button id="logout-btn" class="button button-secondary" type="button">Logout</button>
-      </div>
-    </section>
-
-    <section class="summary-grid" id="summary-grid"></section>
-
-    <section class="workspace-grid">
-      <div class="panel panel-wide">
-        <div class="panel-header">
-          <div>
-            <h2>Certification Records</h2>
-            <p class="muted">Track active credentials, upcoming renewals, and archived proof points.</p>
-          </div>
-          <label class="inline-filter">
-            <span>Status</span>
-            <select id="status-filter">
-              <option>All</option>
-              <option>Active</option>
-              <option>Expiring Soon</option>
-              <option>Expired</option>
-            </select>
-          </label>
-        </div>
-        <div id="certification-list" class="certification-list"></div>
-      </div>
-
-      <aside class="panel">
-        <div class="panel-header">
-          <div>
-            <h2>Add Certification</h2>
-            <p class="muted">Admins can add for any user. Users can add their own records.</p>
-          </div>
-        </div>
-        <form id="cert-form" class="form-stack">
-          <label id="user-select-label">
-            <span>Certificate Owner</span>
-            <select name="userId"></select>
-          </label>
-          <label>
-            <span>Certification Title</span>
-            <input name="title" required>
-          </label>
-          <label>
-            <span>Provider</span>
-            <input name="provider" required>
-          </label>
-          <label>
-            <span>Issue Date</span>
-            <input name="issueDate" type="date" required>
-          </label>
-          <label>
-            <span>Expiry Date</span>
-            <input name="expiryDate" type="date" required>
-          </label>
-          <label>
-            <span>Renewal Status</span>
-            <select name="renewalStatus">
-              <option>Not Started</option>
-              <option>Scheduled</option>
-              <option>Pending Submission</option>
-              <option>Action Required</option>
-              <option>Renewed</option>
-            </select>
-          </label>
-          <label>
-            <span>Reminder Window (days)</span>
-            <input name="reminderDays" type="number" min="1" value="30" required>
-          </label>
-          <label>
-            <span>Certificate Code</span>
-            <input name="certificateCode" required>
-          </label>
-          <label>
-            <span>Certificate URL</span>
-            <input name="certificateUrl" placeholder="https://example.com/certificate">
-          </label>
-          <label>
-            <span>Notes</span>
-            <textarea name="notes" rows="3"></textarea>
-          </label>
-          <button class="button button-primary" type="submit">Save Certification</button>
-          <p id="form-message" class="form-message"></p>
-        </form>
-      </aside>
+  <main class="loading-shell">
+    <section class="card loader-card">
+      <div class="eyebrow">Loading Portal</div>
+      <h1>Opening your dashboard</h1>
+      <p class="muted">Checking your role and redirecting to the correct portal page.</p>
     </section>
   </main>
-
-  <template id="certification-card-template">
-    <article class="cert-card">
-      <div class="cert-card-head">
-        <div>
-          <div class="cert-owner"></div>
-          <h3></h3>
-          <p class="muted provider"></p>
-        </div>
-        <span class="status-pill"></span>
-      </div>
-      <div class="cert-metrics"></div>
-      <p class="notes"></p>
-      <div class="cert-links"></div>
-      <form class="renew-form">
-        <label>
-          <span>Renew Until</span>
-          <input type="date" name="expiryDate" required>
-        </label>
-        <label>
-          <span>Renewal Note</span>
-          <input type="text" name="notes" placeholder="Renewal submitted / approved">
-        </label>
-        <button class="button button-secondary" type="submit">Renew</button>
-      </form>
-    </article>
-  </template>
-
   <script src="/app.js"></script>
 </body>
 </html>

@@ -3,44 +3,154 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | SkillTrack Pro</title>
+  <title>Login | Skill Certification Tracking Portal</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body data-page="login">
-  <main class="login-shell">
-    <section class="login-panel">
-      <div>
-        <div class="eyebrow">Welcome Back</div>
-        <h1>Sign in to your certification workspace</h1>
-        <p class="muted">Use one of the demo accounts below to explore both admin and user experiences.</p>
-      </div>
-
-      <div class="demo-accounts">
-        <div>
-          <strong>Admin</strong>
-          <span>admin@skilltrack.com / admin123</span>
+  <main class="auth-shell">
+    <section class="auth-layout">
+      <article class="auth-copy auth-panel">
+        <div class="eyebrow">Secure Access</div>
+        <h1>Track, approve, renew, and showcase certifications.</h1>
+        <p class="muted">Students can submit certification proofs and renewal requests. Admins review requests, manage users, and monitor expiring credentials across the portal.</p>
+        <div class="stats-strip">
+          <div class="stat-pill">
+            <strong>Admin</strong>
+            <p class="helper">Review requests and manage records</p>
+          </div>
+          <div class="stat-pill">
+            <strong>Student</strong>
+            <p class="helper">Upload proof and follow approvals</p>
+          </div>
+          <div class="stat-pill">
+            <strong>Secure</strong>
+            <p class="helper">MongoDB storage with hashed passwords</p>
+          </div>
         </div>
-        <div>
-          <strong>User</strong>
-          <span>arjun@skilltrack.com / user123</span>
-        </div>
-      </div>
+      </article>
 
-      <form id="login-form" class="form-card">
-        <label>
-          <span>Email</span>
-          <input type="email" name="email" placeholder="name@company.com" required>
-        </label>
-        <label>
-          <span>Password</span>
-          <input type="password" name="password" placeholder="Enter password" required>
-        </label>
-        <button class="button button-primary" type="submit">Login</button>
-        <p id="login-message" class="form-message"></p>
-      </form>
+      <section class="auth-panel auth-stack">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Portal Entry</div>
+            <h2>Login to continue</h2>
+          </div>
+          <a class="button ghost" href="/">Back</a>
+        </div>
+
+        <form id="login-form" class="form-stack">
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" required>
+          </label>
+          <label>
+            <span>Password</span>
+            <input type="password" name="password" required>
+          </label>
+          <div class="action-row">
+            <button class="button primary" type="submit">Login</button>
+            <button id="open-forgot-btn" class="button secondary" type="button">Forgot Password</button>
+          </div>
+          <p id="login-message" class="message"></p>
+        </form>
+
+        <div class="card">
+          <div class="section-head">
+            <div>
+              <h3>Create new account</h3>
+              <p class="muted">Open the signup form only when needed to keep the login page clean.</p>
+            </div>
+            <button id="show-signup-btn" class="button primary" type="button">Signup</button>
+          </div>
+        </div>
+
+        <section id="signup-drawer" class="card auth-drawer">
+          <div class="section-head">
+            <div>
+              <h3>Signup Details</h3>
+              <p class="muted">Students can register directly. Admin signup needs the admin registration code.</p>
+            </div>
+            <button id="hide-signup-btn" class="button secondary" type="button">Close</button>
+          </div>
+
+          <form id="signup-form" class="form-stack">
+            <div class="form-grid">
+              <label>
+                <span>Full Name</span>
+                <input type="text" name="name" required>
+              </label>
+              <label>
+                <span>Email</span>
+                <input type="email" name="email" required>
+              </label>
+              <label>
+                <span>Password</span>
+                <input type="password" name="password" minlength="6" required>
+              </label>
+              <label>
+                <span>Phone</span>
+                <input type="text" name="phone">
+              </label>
+              <label>
+                <span>Department</span>
+                <input type="text" name="department">
+              </label>
+              <label>
+                <span>Role</span>
+                <select name="role" id="signup-role">
+                  <option value="student">Student</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </label>
+              <label id="admin-code-field" class="hidden">
+                <span>Admin Registration Code</span>
+                <input type="text" name="adminCode">
+              </label>
+            </div>
+            <button class="button primary" type="submit">Create Account</button>
+            <p id="signup-message" class="message"></p>
+          </form>
+        </section>
+
+        <section id="forgot-drawer" class="card auth-drawer">
+          <div class="section-head">
+            <div>
+              <h3>Forgot Password</h3>
+              <p class="muted">Request OTP, then set a new password.</p>
+            </div>
+            <button id="close-forgot-btn" class="button secondary" type="button">Close</button>
+          </div>
+
+          <form id="forgot-form" class="form-stack">
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" required>
+            </label>
+            <button class="button primary" type="submit">Send OTP</button>
+          </form>
+
+          <form id="reset-form" class="form-stack">
+            <div class="form-grid">
+              <label>
+                <span>Email</span>
+                <input type="email" name="email" required>
+              </label>
+              <label>
+                <span>OTP</span>
+                <input type="text" name="otp" maxlength="6" required>
+              </label>
+              <label>
+                <span>New Password</span>
+                <input type="password" name="newPassword" minlength="6" required>
+              </label>
+            </div>
+            <button class="button primary" type="submit">Reset Password</button>
+          </form>
+          <p id="forgot-message" class="message"></p>
+        </section>
+      </section>
     </section>
   </main>
-
   <script src="/app.js"></script>
 </body>
 </html>

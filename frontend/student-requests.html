@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Requests | Skill Certification Tracking Portal</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body data-page="student-requests">
+  <main class="page-shell">
+    <div class="portal-shell">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <div class="eyebrow">Student Portal</div>
+          <h2>Skill Certification Tracking Portal</h2>
+          <p id="sidebar-user" class="muted"></p>
+        </div>
+        <nav class="nav-links">
+          <a class="nav-link" href="/student/overview">Overview</a>
+          <a class="nav-link" href="/student/certifications">Certifications</a>
+          <a class="nav-link active" href="/student/requests">Requests</a>
+          <a class="nav-link" href="/student/profile">Profile</a>
+        </nav>
+        <div class="action-row">
+          <span id="session-badge" class="badge"></span>
+          <button id="logout-btn" class="button secondary" type="button">Logout</button>
+        </div>
+      </aside>
+
+      <section class="portal-main">
+        <article class="portal-panel page-banner">
+          <div>
+            <div class="eyebrow">Requests</div>
+            <h1 id="dashboard-title">My Certification Requests</h1>
+            <p id="dashboard-subtitle" class="muted"></p>
+          </div>
+          <button id="refresh-requests-btn" class="button primary" type="button">Refresh Requests</button>
+        </article>
+
+        <section class="portal-panel">
+          <h2 id="request-title">Request Timeline</h2>
+          <div id="request-list" class="stack-list"></div>
+        </section>
+      </section>
+    </div>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

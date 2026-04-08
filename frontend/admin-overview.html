@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Overview | Skill Certification Tracking Portal</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body data-page="admin-overview">
+  <main class="page-shell">
+    <div class="portal-shell">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <div class="eyebrow">Admin Portal</div>
+          <h2>Skill Certification Tracking Portal</h2>
+          <p id="sidebar-user" class="muted"></p>
+        </div>
+        <nav class="nav-links">
+          <a class="nav-link active" href="/admin/overview">Overview</a>
+          <a class="nav-link" href="/admin/users">Users</a>
+          <a class="nav-link" href="/admin/certifications">Certifications</a>
+          <a class="nav-link" href="/admin/requests">Requests</a>
+          <a class="nav-link" href="/admin/profile">Profile</a>
+        </nav>
+        <div class="action-row">
+          <span id="session-badge" class="badge"></span>
+          <button id="logout-btn" class="button secondary" type="button">Logout</button>
+        </div>
+      </aside>
+
+      <section class="portal-main">
+        <article class="portal-panel page-banner">
+          <div>
+            <div class="eyebrow">Overview</div>
+            <h1 id="dashboard-title">Admin Control Center</h1>
+            <p id="dashboard-subtitle" class="muted"></p>
+          </div>
+          <a class="button primary" href="/admin/requests">Review Requests</a>
+        </article>
+
+        <section id="summary-grid" class="kpi-strip"></section>
+
+        <section class="grid three">
+          <article class="portal-panel action-card">
+            <div>
+              <h2>Manage Certification Records</h2>
+              <p class="muted">Create, edit, approve, and organize certification records across all users.</p>
+            </div>
+            <a class="button secondary compact-action" href="/admin/certifications">Manage Records</a>
+          </article>
+          <article class="portal-panel action-card">
+            <div>
+              <h2>Track Expiration Dates</h2>
+              <p class="muted">Monitor active, expiring soon, and expired certificates with alerts and analytics.</p>
+            </div>
+            <a class="button secondary compact-action" href="/admin/overview">View Expiry</a>
+          </article>
+          <article class="portal-panel action-card">
+            <div>
+              <h2>Facilitate Renewals</h2>
+              <p class="muted">Review renewal requests, approve updates, and keep certificate validity current.</p>
+            </div>
+            <a class="button secondary compact-action" href="/admin/requests">Review Renewals</a>
+          </article>
+        </section>
+
+        <section class="grid two">
+          <article class="portal-panel">
+            <div class="section-head">
+              <div>
+                <h2>Analytics Dashboard</h2>
+                <p class="muted">User growth, certification categories, and expiry trends.</p>
+              </div>
+            </div>
+            <div id="admin-analytics" class="grid two"></div>
+          </article>
+
+          <article class="portal-panel">
+            <div class="section-head">
+              <div>
+                <h2>Notification Center</h2>
+                <p class="muted">System reminders, pending approvals, and admin attention items.</p>
+              </div>
+            </div>
+            <div id="notification-list" class="timeline-list"></div>
+          </article>
+        </section>
+
+        <section class="grid two">
+          <article class="portal-panel">
+            <div class="section-head">
+              <div>
+                <h2>Expiry Alerts</h2>
+                <p class="muted">Monitor expiring and urgent certifications.</p>
+              </div>
+              <button id="refresh-alerts-btn" class="button secondary" type="button">Refresh</button>
+            </div>
+            <div id="alerts-list" class="stack-list"></div>
+          </article>
+
+          <article class="portal-panel">
+            <div class="section-head">
+              <div>
+                <h2>Recent Requests</h2>
+                <p class="muted">Latest student certification and renewal submissions.</p>
+              </div>
+              <button id="refresh-requests-btn" class="button secondary" type="button">Refresh</button>
+            </div>
+            <div id="request-list" class="stack-list"></div>
+          </article>
+        </section>
+      </section>
+    </div>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

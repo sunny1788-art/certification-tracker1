@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Certifications | Skill Certification Tracking Portal</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body data-page="student-certifications">
+  <main class="page-shell">
+    <div class="portal-shell">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <div class="eyebrow">Student Portal</div>
+          <h2>Skill Certification Tracking Portal</h2>
+          <p id="sidebar-user" class="muted"></p>
+        </div>
+        <nav class="nav-links">
+          <a class="nav-link" href="/student/overview">Overview</a>
+          <a class="nav-link active" href="/student/certifications">Certifications</a>
+          <a class="nav-link" href="/student/requests">Requests</a>
+          <a class="nav-link" href="/student/profile">Profile</a>
+        </nav>
+        <div class="action-row">
+          <span id="session-badge" class="badge"></span>
+          <button id="logout-btn" class="button secondary" type="button">Logout</button>
+        </div>
+      </aside>
+
+      <section class="portal-main">
+        <article class="portal-panel page-banner">
+          <div>
+            <div class="eyebrow">Certifications</div>
+            <h1 id="dashboard-title">Certification Wallet & Requests</h1>
+            <p id="dashboard-subtitle" class="muted"></p>
+          </div>
+        </article>
+
+        <section class="grid three">
+          <article class="portal-panel">
+            <h2>Record Certification</h2>
+            <p class="muted">Submit a new certification with proof for admin approval.</p>
+          </article>
+          <article class="portal-panel">
+            <h2>Monitor Renewal Deadline</h2>
+            <p class="muted">Use the status filter and renewal request tools to stay ahead of expiry dates.</p>
+          </article>
+          <article class="portal-panel">
+            <h2>Access Certificate Files</h2>
+            <p class="muted">Approved certificates can be viewed, downloaded, and shared from the list below.</p>
+          </article>
+        </section>
+
+        <form id="cert-form" class="portal-panel form-stack" enctype="multipart/form-data">
+          <h2 id="cert-form-title">Submit Certification Request</h2>
+          <div class="compact-grid">
+            <label id="owner-field" class="hidden"><span>Certificate Owner</span><select id="cert-user-select" name="userId"></select></label>
+            <label><span>Title</span><input type="text" name="title" required></label>
+            <label><span>Provider</span><input type="text" name="provider" required></label>
+            <label><span>Issue Date</span><input type="date" name="issueDate" required></label>
+            <label><span>Expiry Date</span><input type="date" name="expiryDate" required></label>
+            <label><span>Renewal Status</span><select name="renewalStatus"><option>Not Started</option><option>Scheduled</option><option>Pending Submission</option><option>Action Required</option><option>Renewed</option></select></label>
+            <label><span>Reminder Days</span><input type="number" name="reminderDays" value="30" min="1"></label>
+            <label><span>Certificate Code</span><input type="text" name="certificateCode" required></label>
+            <label><span>Proof Link</span><input type="url" name="proofLink"></label>
+            <label><span>Proof File</span><input type="file" name="certificateFile" accept=".pdf,.png,.jpg,.jpeg"></label>
+          </div>
+          <label><span>Notes</span><textarea name="notes" rows="3"></textarea></label>
+          <button id="cert-submit-btn" class="button primary" type="submit">Submit Request</button>
+          <p id="cert-message" class="message"></p>
+        </form>
+
+        <section class="portal-panel">
+          <div class="section-head">
+            <h2 id="cert-list-title">My Approved Certifications</h2>
+            <div class="filter-grid">
+              <label><span>Search</span><input id="cert-search" type="text" placeholder="Search title, provider, code"></label>
+              <label><span>Status</span><select id="status-filter"><option value="All">All</option><option value="Active">Active</option><option value="Expiring Soon">Expiring Soon</option><option value="Expired">Expired</option></select></label>
+              <label><span>Renewal</span><select id="renewal-filter"><option value="All">All</option><option value="Not Started">Not Started</option><option value="Scheduled">Scheduled</option><option value="Pending Submission">Pending Submission</option><option value="Action Required">Action Required</option><option value="Renewed">Renewed</option></select></label>
+            </div>
+          </div>
+          <div id="certification-list" class="stack-list"></div>
+          <div class="pagination-bar">
+            <button id="cert-prev-btn" class="button secondary" type="button">Previous</button>
+            <span id="cert-page-info" class="muted"></span>
+            <button id="cert-next-btn" class="button secondary" type="button">Next</button>
+          </div>
+        </section>
+      </section>
+    </div>
+  </main>
+
+  <dialog id="renew-modal" class="modal">
+    <form id="renew-form" class="portal-panel form-stack modal-card">
+      <div class="section-head">
+        <h2 id="renew-modal-title">Submit Renewal Request</h2>
+        <button class="button secondary" type="button" data-close-modal="renew-modal">Close</button>
+      </div>
+      <input type="hidden" name="id">
+      <div class="compact-grid">
+        <label><span>New Expiry Date</span><input type="date" name="expiryDate" required></label>
+        <label><span>Proof Link</span><input type="url" name="proofLink"></label>
+        <label><span>Proof File</span><input type="file" name="proofFile" accept=".pdf,.png,.jpg,.jpeg"></label>
+      </div>
+      <label><span>Renewal Note</span><textarea name="notes" rows="3"></textarea></label>
+      <button class="button primary" type="submit">Submit Renewal</button>
+      <p id="renew-message" class="message"></p>
+    </form>
+  </dialog>
+  <script src="/app.js"></script>
+</body>
+</html>

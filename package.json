@@ -1,9 +1,25 @@
 {
   "name": "certification-tracker",
-  "version": "1.0.0",
-  "description": "Professional skill certification tracking platform",
+  "version": "2.0.0",
+  "description": "Professional certification tracking portal with MongoDB, role-based auth, and certificate uploads",
   "main": "backend/server.js",
   "scripts": {
-    "start": "node backend/server.js"
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
+    "seed:admin": "node backend/scripts/seedAdmin.js",
+    "seed:bulk": "node backend/scripts/seedBulkUsers.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.13.2",
+    "multer": "^2.0.0",
+    "nodemailer": "^6.10.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }

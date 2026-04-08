@@ -1,63 +1,95 @@
-const users = [
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+
+const userSchema = new mongoose.Schema(
   {
-    id: "admin-1",
-    name: "Priya Raman",
-    email: "admin@skilltrack.com",
-    password: "admin123",
-    role: "admin",
-    department: "Operations"
+    userId: {
+      type: String,
+      unique: true,
+      sparse: true,
+      trim: true
+    },
+    name: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 6
+    },
+    role: {
+      type: String,
+      enum: ["admin", "student"],
+      default: "student"
+    },
+    department: {
+      type: String,
+      trim: true,
+      default: "General"
+    },
+    phone: {
+      type: String,
+      trim: true,
+      default: ""
+    },
+    profilePhoto: {
+      type: String,
+      default: ""
+    },
+    isActive: {
+      type: Boolean,
+      default: true
+    },
+    resetOtpCode: {
+      type: String,
+      default: ""
+    },
+    resetOtpExpiresAt: {
+      type: Date,
+      default: null
+    }
   },
   {
-    id: "user-1",
-    name: "Arjun Patel",
-    email: "arjun@skilltrack.com",
-    password: "user123",
-    role: "user",
-    department: "Cloud Engineering"
-  },
-  {
-    id: "user-2",
-    name: "Neha Singh",
-    email: "neha@skilltrack.com",
-    password: "user123",
-    role: "user",
-    department: "Cybersecurity"
+    timestamps: true
   }
-];
+);
 
-function getSafeUser(user) {
-  if (!user) {
-    return null;
+userSchema.pre("save", async function hashPassword(next) {
+  if (!this.isModified("password")) {
+    next();
+    return;
   }
 
-  return {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    department: user.department
-  };
-}
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
 
-function findUserByEmail(email) {
-  return users.find((user) => user.email.toLowerCase() === String(email).toLowerCase());
-}
-
-function validateUser(email, password) {
-  const user = findUserByEmail(email);
-  if (!user || user.password !== password) {
-    return null;
-  }
-
-  return getSafeUser(user);
-}
-
-function getUsers() {
-  return users.map(getSafeUser);
-}
-
-module.exports = {
-  getSafeUser,
-  validateUser,
-  getUsers
+userSchema.methods.comparePassword = function comparePassword(candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
 };
+
+userSchema.methods.toSafeObject = function toSafeObject() {
+  return {
+    id: this._id.toString(),
+    userId: this.userId || "",
+    name: this.name,
+    email: this.email,
+    role: this.role,
+    department: this.department,
+    phone: this.phone,
+    profilePhoto: this.profilePhoto,
+    isActive: this.isActive,
+    createdAt: this.createdAt
+  };
+};
+
+module.exports = mongoose.model("User", userSchema);
