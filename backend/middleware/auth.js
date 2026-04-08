@@ -5,12 +5,13 @@ async function requireAuth(req, res, next) {
   try {
     const authHeader = req.headers.authorization || "";
     const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
+    const jwtSecret = String(process.env.JWT_SECRET || "").trim();
 
     if (!token) {
       return res.status(401).json({ message: "Authentication token is missing." });
     }
 
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = jwt.verify(token, jwtSecret);
     const user = await User.findById(payload.userId);
 
     if (!user || !user.isActive) {
